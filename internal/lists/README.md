@@ -5,7 +5,7 @@
 Current version of filterlists used is:
 
 ```
-https://github.com/mozilla-firefox/firefox/tree/441506211f9c4c806ce0b6d2b17f67e0775d6ef7/toolkit/components/antitracking/StripOnShareLists
+https://github.com/mozilla-firefox/firefox/tree/19e291c2ab258392ea2d2c1aa8120f18f08d3bed/toolkit/components/antitracking/StripOnShareLists
 ```
 
 ## Brave

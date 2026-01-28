@@ -15,13 +15,11 @@ func LoadFilters() filter.FilterList {
 	// Firefox
 	fffilters := parseFilterlistFirefox()
 	for _, fffrecord := range fffilters {
-		for _, site := range fffrecord.TopLevelSites {
-			if site == "*" {
-				site = "."
-			} else {
-				site = site + "."
-			}
-			filters.Add(strings.ToLower(site), filter.NewFilter(fffrecord.QueryParams))
+		if fffrecord.IsGlobal {
+			filters.Add(strings.ToLower("."), filter.NewFilter(fffrecord.QueryParams))
+		}
+		for _, site := range fffrecord.Origins {
+			filters.Add(strings.ToLower(site+"."), filter.NewFilter(fffrecord.QueryParams))
 		}
 	}
 	// Brave

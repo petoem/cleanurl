@@ -10,8 +10,9 @@ type firefoxFilters map[string]firefoxFilter
 
 // Firefox filter for domains
 type firefoxFilter struct {
-	QueryParams   []string `json:"queryParams"`
-	TopLevelSites []string `json:"topLevelSites"`
+	QueryParams []string `json:"queryParams"`
+	Origins     []string `json:"origins"`
+	IsGlobal    bool     `json:"isGlobal"`
 }
 
 // parseFilterlistFirefox returns the embedded filters or panics.
