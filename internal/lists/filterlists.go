@@ -7,27 +7,36 @@ import (
 	"github.com/petoem/cleanurl/filter"
 )
 
+const (
+	FIREFOXLISTLGPL = "firefox/LGPL/StripOnShareLGPL.json"
+	FIREFOXLISTMPL2 = "firefox/MPL2/StripOnShare.json"
+
+	BRAVELIST = "brave/clean-urls.json"
+)
+
 //go:embed firefox brave
-var filterlists embed.FS
+var listsFS embed.FS
 
 func LoadFilters() filter.FilterList {
-	filters := make(filter.FilterList)
+	filterlist := make(filter.FilterList)
 	// Firefox
-	fffilters := parseFilterlistFirefox()
-	for _, fffrecord := range fffilters {
-		if fffrecord.IsGlobal {
-			filters.Add(strings.ToLower("."), filter.NewFilter(fffrecord.QueryParams))
-		}
-		for _, site := range fffrecord.Origins {
-			filters.Add(strings.ToLower(site+"."), filter.NewFilter(fffrecord.QueryParams))
+	for _, filepath := range []string{FIREFOXLISTLGPL, FIREFOXLISTMPL2} {
+		filters := parseFilterlistFirefox(filepath)
+		for _, record := range filters {
+			if record.IsGlobal {
+				filterlist.Add(strings.ToLower("."), filter.NewFilter(record.QueryParams))
+			}
+			for _, site := range record.Origins {
+				filterlist.Add(strings.ToLower(site+"."), filter.NewFilter(record.QueryParams))
+			}
 		}
 	}
 	// Brave
-	bfilters := parseFilterlistBrave()
-	for _, b := range bfilters {
+	filters := parseFilterlistBrave(BRAVELIST)
+	for _, b := range filters {
 		for _, url := range b.Include {
-			filters.Add(wildcardBraveURLToDomain(url), filter.NewFilter(b.Params))
+			filterlist.Add(wildcardBraveURLToDomain(url), filter.NewFilter(b.Params))
 		}
 	}
-	return filters
+	return filterlist
 }

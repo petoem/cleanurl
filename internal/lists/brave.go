@@ -12,18 +12,18 @@ type braveFilter struct {
 	Params  []string `json:"params"`
 }
 
-// parseFilterlistBrave returns the embedded filters or panics.
-func parseFilterlistBrave() []braveFilter {
-	data, err := fs.ReadFile(filterlists, "brave/clean-urls.json")
+// parseFilterlistBrave returns the embedded filters at filepath or panics.
+func parseFilterlistBrave(filepath string) []braveFilter {
+	data, err := fs.ReadFile(listsFS, filepath)
 	if err != nil {
 		panic(err)
 	}
-	var bfilterlists []braveFilter
-	err = json.Unmarshal(data, &bfilterlists)
+	var bravefilters []braveFilter
+	err = json.Unmarshal(data, &bravefilters)
 	if err != nil {
 		panic(err)
 	}
-	return bfilterlists
+	return bravefilters
 }
 
 func wildcardBraveURLToDomain(wurl string) string {

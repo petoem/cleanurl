@@ -15,16 +15,16 @@ type firefoxFilter struct {
 	IsGlobal    bool     `json:"isGlobal"`
 }
 
-// parseFilterlistFirefox returns the embedded filters or panics.
-func parseFilterlistFirefox() firefoxFilters {
-	data, err := fs.ReadFile(filterlists, "firefox/LGPL/StripOnShareLGPL.json")
+// parseFilterlistFirefox returns the embedded filters at filepath or panics.
+func parseFilterlistFirefox(filepath string) firefoxFilters {
+	data, err := fs.ReadFile(listsFS, filepath)
 	if err != nil {
 		panic(err)
 	}
-	var fffilterlists firefoxFilters
-	err = json.Unmarshal(data, &fffilterlists)
+	var firefoxfilters firefoxFilters
+	err = json.Unmarshal(data, &firefoxfilters)
 	if err != nil {
 		panic(err)
 	}
-	return fffilterlists
+	return firefoxfilters
 }
